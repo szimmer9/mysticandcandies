@@ -19,44 +19,19 @@ int MysticAndCandies::minBoxes(int C, int X, vector<int> low, vector<int> high)
 {
     int numBoxes = low.size();
     int sum = 0;
-    // cout << "X: " << X << " C: " << C << endl;
-
-    // MAKE IT FASTER
-    //if( C == X ) return numBoxes;
 
     // Sort low from high to low, and sort high from low to high
-    /* slow 1
     sort(low.begin(), low.end(), greater<int>());
     sort(high.begin(), high.end());
-    */
-    std::priority_queue<int> low_pq, high_pq;
-    for(int i = 0; i < numBoxes; i++)
-    {
-        low_pq.push(low[i]);
-        high_pq.push(high[i]);
-    }
-    
 
-    // for(int i = 0; i < numBoxes; i++)
-    // {
-    //     cout << "low: " << low[i] << " high: " << high[i] << endl;
-    // }
-
-// http://mradwan.github.io/strategy/2013/11/26/strategy-focus-on-the-solution/
-// https://github.com/himalayjor/Topcoder/blob/master/MysticAndCandies.cpp
-// https://torus711.hatenablog.com/entry/20140207/p1
-// Problem statement: https://community.topcoder.com/stat?c=problem_statement&pm=12997
     int minBoxes1 = numBoxes, minBoxes2 = numBoxes;
     
     // lows
     for(int i = 0; i < numBoxes; i++)
     { 
-        // sum += low[i];
-        sum += low_pq.top();
-        low_pq.pop();
+        sum += low[i];
         if(sum >= X) {
             minBoxes1 = i+1;
-            // cout << "in lows: " << minBoxes1 << endl;
             break;
         }
     }
@@ -65,12 +40,9 @@ int MysticAndCandies::minBoxes(int C, int X, vector<int> low, vector<int> high)
     sum = 0;
     for(int i = 0; i < numBoxes; i++)
     {
-        // sum += high[i];
-        sum += high_pq.top();
-        high_pq.pop();
+        sum += high[i];
         if(C - sum <= X)
         {
-            // cout << "in highs: " << numBoxes - i << endl;
             minBoxes2 = numBoxes - i;
             break;
         } 
